@@ -27,8 +27,6 @@ function parseHtmlToJson(data) {
 		fs.writeFile('htmlToJson.json', json, function(err) {
 			if (err) return console.log(err);
 		});
-//comment from TaiDigi'';;
-//22040304
 
 	});
 }
