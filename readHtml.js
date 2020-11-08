@@ -1,33 +1,19 @@
-const fs = require('fs')
-
-fs.readFile('test.html', 'utf8', (err, data) => {
-	if (err) {
-		console.error(err)
-		return
+function loadXMLDoc() {
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		// code for older browsers
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	console.log(data)
-	console.log("--------------------")
-	parseHtmlToJson(data)
-});
-
-
-function parseHtmlToJson(data) {
-	const xml2js = require('xml2js');
-	xml2js.parseString(data, (err, result) => {
-		if (err) {
-			throw err;
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			document.getElementById("demo").innerHTML =
+				this.responseText;
 		}
-
-		// `result` is a JavaScript object
-		// convert it to a JSON string
-		const json = JSON.stringify(result, null, 4);
-		
-		// log JSON string
-		console.log(json);
-		fs.writeFile('htmlToJson.json', json, function(err) {
-			if (err) return console.log(err);
-		});
-
-	});
+	};
+	xmlhttp.open("GET", "test.html", true);
+	//xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	//xmlhttp.setRequestHeader("Access-Control-Allow-Origin","*");
+	xmlhttp.send();
 }
-
